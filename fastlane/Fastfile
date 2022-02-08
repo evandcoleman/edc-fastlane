@@ -1,7 +1,5 @@
 default_platform(:ios)
 
-require 'scan'
-
 platform :ios do
 
   desc "Push a new beta build to TestFlight"

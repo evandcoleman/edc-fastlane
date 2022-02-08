@@ -18,7 +18,9 @@ platform :ios do
   desc "Run tests"
   lane :test do
     xcodegen
-    run_tests
+    run_tests(
+      fail_build: false
+    )
     slather
     code_coverage
   end

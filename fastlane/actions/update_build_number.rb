@@ -7,6 +7,8 @@ module Fastlane
         date = time.strftime("%Y%m%d")
         build_number = "#{date}#{build_number}"
 
+        UI.message "Updating build number fo #{build_number}..."
+
         other_action.edit_project_spec(build_number: build_number)
 
         return Actions.lane_context[SharedValues::BUILD_NUMBER] = build_number

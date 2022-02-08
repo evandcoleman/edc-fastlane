@@ -27,7 +27,8 @@ platform :ios do
       proj: current_project,
       scheme: scanfile[:scheme],
       output_directory: "fastlane/test_output",
-      cobertura_xml: true
+      cobertura_xml: true,
+      build_directory: Actions.lane_context[SharedValues::SCAN_DERIVED_DATA_PATH]
     )
     code_coverage(
       file: "fastlane/test_output/cobertura.xml"

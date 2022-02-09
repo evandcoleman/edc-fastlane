@@ -32,6 +32,7 @@ platform :ios do
     code_coverage(
       file: "fastlane/test_output/cobertura.xml"
     )
+    xctesthtmlreport
   end
 
   private_lane :create_api_key do

@@ -23,7 +23,6 @@ module Fastlane
         end
 
         Actions.sh("#{binary_path.shellescape} -z -i -r #{lane_context[SharedValues::SCAN_GENERATED_XCRESULT_PATH].shellescape}")
-        Actions.sh("mv index.html fastlane/test_output/test_report.html")
       end
 
       def self.description

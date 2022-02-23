@@ -12,7 +12,8 @@ module Fastlane
           Actions.sh("curl -OL https://github.com/yonaskolb/XcodeGen/releases/download/2.25.0/xcodegen.zip")
           Actions.sh("unzip -q -o xcodegen.zip")
           Actions.sh("rm xcodegen.zip")
-          Actions.sh("mv xcodegen/bin/xcodegen #{binary_path.shellescape}")
+          Actions.sh("cp xcodegen/bin/xcodegen #{binary_path.shellescape}")
+          Actions.sh("sh xcodegen/install.sh")
           Actions.sh("rm -rf xcodegen")
         end
 

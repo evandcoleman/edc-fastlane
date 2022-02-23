@@ -2,17 +2,14 @@ module Fastlane
   module Actions
     class XcodegenAction < Action
       def self.run(params)
-        other_action.setup_local_bin
+        binary_path = "/usr/local/bin/xcodegen"
 
-        binary_path = File.join(lane_context[SharedValues::LOCAL_BINARY_PATH], "xcodegen")
-
-        unless File.exist?(binary_path)
+        if !File.exist?(binary_path) && other_action.is_ci
           UI.message("Installing XcodeGen...")
 
           Actions.sh("curl -OL https://github.com/yonaskolb/XcodeGen/releases/download/2.25.0/xcodegen.zip")
           Actions.sh("unzip -q -o xcodegen.zip")
           Actions.sh("rm xcodegen.zip")
-          Actions.sh("cp xcodegen/bin/xcodegen #{binary_path.shellescape}")
           Actions.sh("sh xcodegen/install.sh")
           Actions.sh("rm -rf xcodegen")
         end

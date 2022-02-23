@@ -53,7 +53,9 @@ platform :ios do
   lane :upload_screenshots do
     upload_to_app_store(
       screenshots_path: "./fastlane/screenshots",
-      submit_for_review: false
+      overwrite_screenshots: true,
+      submit_for_review: false,
+      run_precheck_before_submit: false
     )
   end
 

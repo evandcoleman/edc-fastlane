@@ -59,15 +59,6 @@ platform :ios do
     )
   end
 
-  desc "Generate launch image"
-  lane :launch_image do
-    capture_ios_screenshots(
-      scheme: "LaunchImageUITests",
-      skip_open_summary: true,
-      output_directory: "./fastlane/launch-images"
-    )
-  end
-
   private_lane :create_api_key do
     app_store_connect_api_key(
       key_id: ENV["FL_APPLE_KEY_ID"],

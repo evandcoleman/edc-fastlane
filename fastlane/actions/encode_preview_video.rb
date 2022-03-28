@@ -23,7 +23,7 @@ module Fastlane
         args << "-i"
         args << input_path.shellescape
         args << "-shortest"
-        args << "-vf scale=#{params[:width]}:#{params[:height]},setsar=1,fps=30"
+        args << "-vf scale=#{params[:width]}:#{params[:height]},setsar=1,fps=30#{params[:rotate] ? ",transpose=1" : ""}"
         if params[:silence_audio]
           args << "-c:a aac"
         else
@@ -59,6 +59,10 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :height,
                                       description: "The output height",
                                       default_value: "1920"),
+          FastlaneCore::ConfigItem.new(key: :rotate,
+                                      description: "If true video is rotate 90 degrees",
+                                      is_string: false,
+                                      default_value: false),
           FastlaneCore::ConfigItem.new(key: :output_path,
                                       description: "The path to output the video (defaults to the directory of the input)",
                                       optional: true),

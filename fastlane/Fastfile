@@ -75,6 +75,10 @@ platform :ios do
     )
   end
 
+  lane :code_signing do
+    match
+  end
+
   private_lane :login do
     if is_ci
       create_api_key
@@ -93,5 +97,11 @@ platform :ios do
       key_content: ENV["FL_APPLE_KEY"],
       in_house: false
     )
+  end
+end
+
+platform :mac do
+  lane :code_signing do
+    match
   end
 end

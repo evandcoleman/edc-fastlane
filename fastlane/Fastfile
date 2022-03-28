@@ -36,7 +36,7 @@ platform :ios do
   end
 
   desc "Generate screenshots"
-  lane :screenshots do
+  lane :screenshots do |options|
     unless options[:skip_capture]
       capture_ios_screenshots(
         output_directory: "./fastlane/screenshots",

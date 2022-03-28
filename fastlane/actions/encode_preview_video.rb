@@ -23,7 +23,7 @@ module Fastlane
         args << "-i"
         args << input_path.shellescape
         args << "-shortest"
-        args << "-vf scale=#{params[:width]}:#{params[:height]},setsar=1"
+        args << "-vf scale=#{params[:width]}:#{params[:height]},setsar=1,fps=30"
         if params[:silence_audio]
           args << "-c:a aac"
         else

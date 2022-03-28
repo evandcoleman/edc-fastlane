@@ -37,14 +37,16 @@ platform :ios do
 
   desc "Generate screenshots"
   lane :screenshots do
-    capture_ios_screenshots(
-      output_directory: "./fastlane/screenshots",
-      clear_previous_screenshots: true,
-      override_status_bar: true
-    )
-    Dir.glob("./screenshots/en-US/iPad Pro*.png") do |file|
-      sh("cp #{file.shellescape} #{file.gsub(/5th generation/, "4th generation").shellescape}")
-      sh("mv #{file.shellescape} #{file.gsub(/5th generation/, "2nd generation").shellescape}")
+    unless options[:skip_capture]
+      capture_ios_screenshots(
+        output_directory: "./fastlane/screenshots",
+        clear_previous_screenshots: true,
+        override_status_bar: true
+      )
+      Dir.glob("./screenshots/en-US/iPad Pro*.png") do |file|
+        sh("cp #{file.shellescape} #{file.gsub(/5th generation/, "4th generation").shellescape}")
+        sh("mv #{file.shellescape} #{file.gsub(/5th generation/, "2nd generation").shellescape}")
+      end
     end
     frame_screenshots(path: "./fastlane/screenshots")
   end

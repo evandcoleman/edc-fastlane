@@ -7,7 +7,7 @@ platform :ios do
     ensure_git_status_clean
     update_build_number
     xcodegen
-    create_api_key
+    login
     match(type: "appstore")
     build_app
     upload_to_testflight(
@@ -57,6 +57,31 @@ platform :ios do
       submit_for_review: false,
       run_precheck_before_submit: false
     )
+  end
+
+  desc "Generates and compresses a press kit archive"
+  lane :presskit do
+    login
+    generate_presskit(
+      screenshots_path: "./fastlane/screenshots",
+      round_app_icons: true,
+      app_icon_paths: {
+        "app-icon-large.png": "./App/Assets.xcassets/AppIcon.appiconset/icon_512x512@2x.png",
+        "app-icon-medium.png": "./App/Assets.xcassets/AppIcon.appiconset/Icon-60@2x.png",
+        "app-icon-small.png": "./App/Assets.xcassets/AppIcon.appiconset/Icon-Notification@3x.png",
+      }
+    )
+  end
+
+  private_lane :login do
+    if is_ci
+      create_api_key
+    else
+      Spaceship::ConnectAPI.login(
+        portal_team_id: CredentialsManager::AppfileConfig.try_fetch_value(:team_id),
+        tunes_team_id: CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_id)
+      )
+    end
   end
 
   private_lane :create_api_key do

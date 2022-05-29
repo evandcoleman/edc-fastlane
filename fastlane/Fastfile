@@ -9,7 +9,7 @@ platform :ios do
     xcodegen
     login
     match(type: "appstore")
-    build_app
+    build_ios_app
     upload_to_testflight(
       skip_waiting_for_build_processing: true
     )
@@ -60,48 +60,57 @@ platform :ios do
       run_precheck_before_submit: false
     )
   end
+end
 
-  desc "Generates and compresses a press kit archive"
-  lane :presskit do
+platform :mac do
+  desc "Push a new build to App Store Connect"
+  lane :build do
+    # ensure_git_status_clean
+    update_build_number
+    xcodegen
     login
-    generate_presskit(
-      screenshots_path: "./fastlane/screenshots",
-      round_app_icons: true,
-      app_icon_paths: {
-        "app-icon-large.png": "./App/Assets.xcassets/AppIcon.appiconset/icon_512x512@2x.png",
-        "app-icon-medium.png": "./App/Assets.xcassets/AppIcon.appiconset/Icon-60@2x.png",
-        "app-icon-small.png": "./App/Assets.xcassets/AppIcon.appiconset/Icon-Notification@3x.png",
-      }
-    )
-  end
-
-  lane :code_signing do
-    match
-  end
-
-  private_lane :login do
-    if is_ci
-      create_api_key
-    else
-      Spaceship::ConnectAPI.login(
-        portal_team_id: CredentialsManager::AppfileConfig.try_fetch_value(:team_id),
-        tunes_team_id: CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_id)
-      )
-    end
-  end
-
-  private_lane :create_api_key do
-    app_store_connect_api_key(
-      key_id: ENV["FL_APPLE_KEY_ID"],
-      issuer_id: ENV["FL_APPLE_ISSUER_ID"],
-      key_content: ENV["FL_APPLE_KEY"],
-      in_house: false
+    match(type: "appstore")
+    build_mac_app
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true
     )
   end
 end
 
-platform :mac do
-  lane :code_signing do
-    match
+desc "Generates and compresses a press kit archive"
+lane :presskit do
+  login
+  generate_presskit(
+    screenshots_path: "./fastlane/screenshots",
+    round_app_icons: true,
+    app_icon_paths: {
+      "app-icon-large.png": "./App/Assets.xcassets/AppIcon.appiconset/icon_512x512@2x.png",
+      "app-icon-medium.png": "./App/Assets.xcassets/AppIcon.appiconset/Icon-60@2x.png",
+      "app-icon-small.png": "./App/Assets.xcassets/AppIcon.appiconset/Icon-Notification@3x.png",
+    }
+  )
+end
+
+lane :code_signing do
+  match
+end
+
+private_lane :login do
+  if is_ci
+    create_api_key
+  else
+    Spaceship::ConnectAPI.login(
+      portal_team_id: CredentialsManager::AppfileConfig.try_fetch_value(:team_id),
+      tunes_team_id: CredentialsManager::AppfileConfig.try_fetch_value(:itc_team_id)
+    )
   end
+end
+
+private_lane :create_api_key do
+  app_store_connect_api_key(
+    key_id: ENV["FL_APPLE_KEY_ID"],
+    issuer_id: ENV["FL_APPLE_ISSUER_ID"],
+    key_content: ENV["FL_APPLE_KEY"],
+    in_house: false
+  )
 end

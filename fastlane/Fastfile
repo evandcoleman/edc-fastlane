@@ -2,8 +2,8 @@ default_platform(:ios)
 
 platform :ios do
 
-  desc "Push a new beta build to TestFlight"
-  lane :beta do
+  desc "Push a new build to App Store Connect"
+  lane :build do
     ensure_git_status_clean
     update_build_number
     xcodegen

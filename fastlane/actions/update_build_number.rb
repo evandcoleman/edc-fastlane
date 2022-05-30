@@ -5,7 +5,7 @@ module Fastlane
         time = Time.new
         build_number = other_action.get_ci_build_number || "1"
         date = time.strftime("%Y%m%d")
-        build_number = "#{date}#{build_number}"
+        build_number = "#{date}#{"%02d" % build_number.to_i}"
 
         UI.message "Updating build number fo #{build_number}..."
 

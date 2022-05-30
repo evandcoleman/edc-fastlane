@@ -1,6 +1,6 @@
 module Fastlane
   module Actions
-    class GetBuildNumberAction < Action
+    class GetCiBuildNumberAction < Action
       def self.run(params)
         ENV["BITRISE_BUILD_NUMBER"] || ENV["GITHUB_RUN_NUMBER"]
       end

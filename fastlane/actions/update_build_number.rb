@@ -3,7 +3,7 @@ module Fastlane
     class UpdateBuildNumberAction < Action
       def self.run(params)
         time = Time.new
-        build_number = ENV["BITRISE_BUILD_NUMBER"] || "1"
+        build_number = other_action.get_ci_build_number || "1"
         date = time.strftime("%Y%m%d")
         build_number = "#{date}#{build_number}"
 

@@ -96,6 +96,10 @@ lane :code_signing do
   match(readonly: true)
 end
 
+lane :code_signing_app_store do
+  match(type: "appstore", readonly: false)
+end
+
 private_lane :login do
   if is_ci
     create_api_key

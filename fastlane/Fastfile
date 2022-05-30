@@ -60,6 +60,14 @@ platform :ios do
       run_precheck_before_submit: false
     )
   end
+
+  lane :code_signing do
+    match(readonly: true)
+  end
+
+  lane :code_signing_app_store do
+    match(type: "appstore", readonly: false)
+  end
 end
 
 platform :mac do
@@ -76,6 +84,14 @@ platform :mac do
       skip_waiting_for_build_processing: true
     )
   end
+
+  lane :code_signing do
+    match(readonly: true)
+  end
+
+  lane :code_signing_app_store do
+    match(type: "appstore", readonly: false)
+  end
 end
 
 desc "Generates and compresses a press kit archive"
@@ -90,14 +106,6 @@ lane :presskit do
       "app-icon-small.png": "./App/Assets.xcassets/AppIcon.appiconset/Icon-Notification@3x.png",
     }
   )
-end
-
-lane :code_signing do
-  match(readonly: true)
-end
-
-lane :code_signing_app_store do
-  match(type: "appstore", readonly: false)
 end
 
 private_lane :login do

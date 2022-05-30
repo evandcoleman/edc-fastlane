@@ -8,7 +8,7 @@ platform :ios do
     update_build_number
     xcodegen
     login
-    match(type: "appstore")
+    match(type: "appstore", readonly: true)
     build_ios_app
     upload_to_testflight(
       skip_waiting_for_build_processing: true
@@ -69,7 +69,8 @@ platform :mac do
     update_build_number
     xcodegen
     login
-    match(type: "appstore")
+    match(type: "appstore", readonly: true)
+    match(type: "mac_installer_distribution", readonly: true)
     build_mac_app
     upload_to_testflight(
       skip_waiting_for_build_processing: true
@@ -92,7 +93,7 @@ lane :presskit do
 end
 
 lane :code_signing do
-  match
+  match(readonly: true)
 end
 
 private_lane :login do

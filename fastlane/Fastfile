@@ -70,7 +70,6 @@ platform :mac do
     xcodegen
     login
     match(type: "appstore")
-    match(type: "mac_installer_distribution")
     build_mac_app
     upload_to_testflight(
       skip_waiting_for_build_processing: true

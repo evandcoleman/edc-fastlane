@@ -94,6 +94,19 @@ platform :mac do
   end
 end
 
+desc "Updates the app version to a new value"
+lane :version_bump do
+  version = UI.input("Enter a new version number (Currently #{get_current_version}): ")
+  edit_project_spec(
+    version: version
+  )
+  git_commit(
+    path: "./project.yml",
+    message: "Version Bump #{newVersion}"
+  )
+  UI.important("Don't forget to push the change!")
+end
+
 desc "Generates and compresses a press kit archive"
 lane :presskit do
   login

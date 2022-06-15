@@ -102,7 +102,7 @@ lane :version_bump do
   )
   git_commit(
     path: "./project.yml",
-    message: "Version Bump #{newVersion}"
+    message: "Version Bump #{version}"
   )
   UI.important("Don't forget to push the change!")
 end

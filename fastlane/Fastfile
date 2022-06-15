@@ -61,12 +61,12 @@ platform :ios do
     )
   end
 
-  lane :code_signing do
-    match(readonly: true)
+  lane :code_signing do |options|
+    match(readonly: options[:readonly].nil? ? true : options[:readonly])
   end
 
-  lane :code_signing_app_store do
-    match(type: "appstore", readonly: false)
+  lane :code_signing_app_store do |options|
+    match(type: "appstore", readonly: options[:readonly].nil? ? true : options[:readonly])
   end
 end
 
@@ -85,12 +85,12 @@ platform :mac do
     )
   end
 
-  lane :code_signing do
-    match(readonly: true)
+  lane :code_signing do |options|
+    match(readonly: options[:readonly].nil? ? true : options[:readonly])
   end
 
-  lane :code_signing_app_store do
-    match(type: "appstore", readonly: false)
+  lane :code_signing_app_store do |options|
+    match(type: "appstore", readonly: options[:readonly].nil? ? true : options[:readonly])
   end
 end
 

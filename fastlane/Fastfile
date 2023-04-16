@@ -122,7 +122,7 @@ lane :presskit do
 end
 
 private_lane :login do
-  if is_ci
+  if is_ci || !ENV["FL_APPLE_KEY"].nil?
     create_api_key
   else
     Spaceship::ConnectAPI.login(

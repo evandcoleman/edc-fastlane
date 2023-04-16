@@ -48,7 +48,7 @@ platform :ios do
         sh("mv #{file.shellescape} #{file.gsub(/5th generation/, "2nd generation").shellescape}")
       end
     end
-    frame_screenshots(path: "./fastlane/screenshots") if File.exist('./screenshots/Framefile.json')
+    frame_screenshots(path: "./fastlane/screenshots") if File.exist?('./screenshots/Framefile.json')
   end
 
   desc "Upload screenshots"

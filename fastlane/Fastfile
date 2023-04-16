@@ -114,7 +114,7 @@ lane :presskit do
     screenshots_path: "./fastlane/screenshots",
     round_app_icons: true,
     app_icon_paths: {
-      "app-icon-large.png": "./App/Assets.xcassets/AppIcon.appiconset/icon_512x512@2x.png",
+      "app-icon-large.png": "./App/Assets.xcassets/AppIcon.appiconset/Icon-1024.png",
       "app-icon-medium.png": "./App/Assets.xcassets/AppIcon.appiconset/Icon-60@2x.png",
       "app-icon-small.png": "./App/Assets.xcassets/AppIcon.appiconset/Icon-Notification@3x.png",
     }

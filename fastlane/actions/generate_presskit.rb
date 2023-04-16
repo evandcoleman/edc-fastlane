@@ -17,7 +17,11 @@ module Fastlane
             framed_dest = File.join(dest, "app-store")
             FileUtils.mkdir_p(framed_dest)
             FileUtils.cp_r(Dir.glob(path), dest)
-            FileUtils.mv(Dir.glob(File.join(dest, "*_framed.*")), framed_dest)
+            if File.exist?(File.join(dest, "*_framed.*"))
+              FileUtils.mv(Dir.glob(File.join(dest, "*_framed.*")), framed_dest)
+            else
+              FileUtils.mv(Dir.glob(dest), framed_dest)
+            end
           end
 
           # Copy metadata

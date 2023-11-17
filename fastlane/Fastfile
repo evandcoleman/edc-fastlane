@@ -121,6 +121,12 @@ lane :presskit do
   )
 end
 
+desc "Sync in-app purchases to json file"
+lane :purchases do
+  login
+  sync_in_app_purchases
+end
+
 private_lane :login do
   if is_ci || !ENV["FL_APPLE_KEY"].nil?
     create_api_key

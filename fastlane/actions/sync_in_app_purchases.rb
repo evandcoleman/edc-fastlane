@@ -17,7 +17,9 @@ module Fastlane
           local_purchases.each do |p|
             remote_purchase = nil
             remote_purchases.each do |rp|
-              remote_purchase = rp if p['id'] == rp['id']
+              if p['id'] == rp['id'] || p['attributes']['productId'] == rp['attributes']['productId']
+                remote_purchase = rp
+              end
             end
             local_and_remote_purchases << { 'local' => p, 'remote' => remote_purchase }
           end
@@ -34,7 +36,7 @@ module Fastlane
               new_purchase = create_in_app_purchase(app_id, local_purchase)
 
               unless local_purchase['availability'].nil?
-                updated_purchase['availability'] =
+                new_purchase['availability'] =
                   create_in_app_purchase_availability(new_purchase['id'], local_purchase['availability'])
               end
 
@@ -42,6 +44,11 @@ module Fastlane
                 new_purchase['localizations'] = local_purchase['localizations'].map do |localization|
                   create_in_app_purchase_localization new_purchase['id'], localization
                 end
+              end
+
+              unless local_purchase['pricePoint'].nil?
+                new_purchase['pricePoint'] =
+                  create_in_app_purchase_price_schedule new_purchase['id'], local_purchase['pricePoint']
               end
 
               new_local_purchases << new_purchase
@@ -356,14 +363,21 @@ module Fastlane
           #     limit: 200
           #   }
           # )
-          price_points_resp = other_action.connect_api(
-            http_method: 'GET',
-            path: "/v1/inAppPurchasePriceSchedules/#{purchase['id']}/manualPrices",
-            params: {
-              'fields[inAppPurchasePrices]': 'inAppPurchasePricePoint',
-              'include': 'inAppPurchasePricePoint'
-            }
-          )
+          price_points_resp = {
+            'included' => []
+          }
+          begin
+            price_points_resp = other_action.connect_api(
+              http_method: 'GET',
+              path: "/v1/inAppPurchasePriceSchedules/#{purchase['id']}/manualPrices",
+              params: {
+                'fields[inAppPurchasePrices]': 'inAppPurchasePricePoint',
+                'include': 'inAppPurchasePricePoint'
+              }
+            )
+          rescue StandardError => e
+            UI.message("Error getting price point for #{purchase['id']}: #{e}")
+          end
           availability_resp = {
             'data' => {}
           }

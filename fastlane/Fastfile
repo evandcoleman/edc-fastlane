@@ -10,7 +10,9 @@ platform :ios do
     match(type: 'appstore', readonly: true)
     build_ios_app
     upload_to_testflight(
-      skip_waiting_for_build_processing: true
+      distribute_external: true,
+      notify_external_testers: true,
+      groups: ['External Testers']
     )
     git_commit(
       path: 'project.yml',

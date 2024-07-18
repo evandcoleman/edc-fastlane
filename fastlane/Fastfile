@@ -1,5 +1,7 @@
 default_platform(:ios)
 
+require 'spaceship'
+
 platform :ios do
   desc 'Push a new build to App Store Connect'
   lane :build do

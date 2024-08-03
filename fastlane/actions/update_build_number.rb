@@ -1,25 +1,30 @@
 module Fastlane
   module Actions
     class UpdateBuildNumberAction < Action
-      def self.run(params)
+      def self.run(_params)
         time = Time.new
-        build_number = other_action.get_ci_build_number || "1"
-        date = time.strftime("%Y%m%d")
-        build_number = "#{date}#{"%02d" % build_number.to_i}"
+        if other_action.is_ci
+          build_number = other_action.get_ci_build_number || '1'
+        else
+          full_build_number = other_action.get_curent_build_number || '1'
+          build_number = full_build_number[-2..-1].to_i + 1
+        end
+        date = time.strftime('%Y%m%d')
+        build_number = "#{date}#{format('%02d', build_number.to_i)}"
 
         UI.message "Updating build number fo #{build_number}..."
 
         other_action.edit_project_spec(build_number: build_number)
 
-        return Actions.lane_context[SharedValues::BUILD_NUMBER] = build_number
+        Actions.lane_context[SharedValues::BUILD_NUMBER] = build_number
       end
 
       def self.description
-        "Creates a build number with the current date and updates the project spec"
+        'Creates a build number with the current date and updates the project spec'
       end
 
       def self.authors
-        ["evandcoleman"]
+        ['evandcoleman']
       end
 
       def self.is_supported?(platform)

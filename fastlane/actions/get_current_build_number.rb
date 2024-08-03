@@ -6,7 +6,7 @@ module Fastlane
       CURRENT_BUILD_NUMBER ||= :CURRENT_BUILD_NUMBER
     end
 
-    class GetCurrentVersionAction < Action
+    class GetCurrentBuildNumberAction < Action
       require 'shellwords'
 
       def self.run(_params)
@@ -29,10 +29,10 @@ module Fastlane
             current_version = ''
           end
 
-          Actions.lane_context[SharedValues::CURRENT_VERSION_NUMBER] = current_version
+          Actions.lane_context[SharedValues::CURRENT_BUILD_NUMBER] = current_version
         end
 
-        Actions.lane_context[SharedValues::CURRENT_VERSION_NUMBER]
+        Actions.lane_context[SharedValues::CURRENT_BUILD_NUMBER]
       end
 
       #####################################################
@@ -45,7 +45,7 @@ module Fastlane
 
       def self.output
         [
-          ['CURRENT_VERSION_NUMBER', 'The current version number']
+          ['CURRENT_BUILD_NUMBER', 'The current version number']
         ]
       end
 

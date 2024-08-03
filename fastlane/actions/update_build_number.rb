@@ -9,6 +9,7 @@ module Fastlane
           full_build_number = other_action.get_current_build_number || '01'
           build_number = full_build_number[-2..-1].to_i + 1
         end
+        puts build_number
         date = time.strftime('%Y%m%d')
         build_number = "#{date}#{format('%02d', build_number.to_i)}"
 

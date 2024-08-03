@@ -6,7 +6,7 @@ module Fastlane
         if other_action.is_ci
           build_number = other_action.get_ci_build_number || '1'
         else
-          full_build_number = other_action.get_current_build_number || '1'
+          full_build_number = other_action.get_current_build_number || '01'
           build_number = full_build_number[-2..-1].to_i + 1
         end
         date = time.strftime('%Y%m%d')

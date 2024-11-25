@@ -1,7 +1,7 @@
 module Fastlane
   module Actions
     class XcodegenAction < Action
-      def self.run(_params)
+      def self.run(params)
         binary_path = params[:xcodegen_path] || '/usr/local/bin/xcodegen'
 
         if !File.exist?(binary_path) && other_action.is_ci

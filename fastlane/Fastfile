@@ -2,6 +2,10 @@ default_platform(:ios)
 
 require 'spaceship'
 
+before_all do
+  sh('ssh-keyscan github.com >> ~/.ssh/known_hosts') if is_ci
+end
+
 platform :ios do
   desc 'Push a new build to App Store Connect'
   lane :build do

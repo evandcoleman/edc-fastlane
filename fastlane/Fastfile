@@ -140,6 +140,7 @@ private_lane :login do
   if is_ci || !ENV['FL_APPLE_KEY'].nil?
     create_api_key
 
+    sh('eval `ssh-agent -s`')
     sh("ssh-add - <<< '#{ENV['MATCH_PRIVATE_KEY']}'") unless ENV['MATCH_PRIVATE_KEY'].nil?
   else
     Spaceship::ConnectAPI.login(

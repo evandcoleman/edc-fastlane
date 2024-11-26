@@ -4,7 +4,7 @@ require 'spaceship'
 
 platform :ios do
   desc 'Push a new build to App Store Connect'
-  lane :build do
+  lane :build do |options|
     ensure_git_status_clean
     update_build_number
     xcodegen
@@ -12,9 +12,9 @@ platform :ios do
     match(type: 'appstore', readonly: true)
     build_ios_app
     upload_to_testflight(
-      distribute_external: true,
-      notify_external_testers: true,
-      groups: ['External Testers'],
+      distribute_external: options[:distribute_external].nil? ? false : options[:distribute_external],
+      notify_external_testers: options[:notify_external_testers].nil? ? false : options[:notify_external_testers],
+      groups: options[:groups].nil? ? [] : options[:groups],
       changelog: changelog_from_git_commits
     )
     git_commit(

@@ -21,11 +21,6 @@ platform :ios do
       groups: options[:groups],
       changelog: changelog_from_git_commits
     )
-    git_commit(
-      path: 'project.yml',
-      message: "Bump build number to #{Actions.lane_context[SharedValues::BUILD_NUMBER]}"
-    )
-    push_to_git_remote
   end
 
   desc 'Run tests'

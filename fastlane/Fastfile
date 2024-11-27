@@ -12,6 +12,8 @@ platform :ios do
     match(type: 'appstore', readonly: true)
     build_ios_app
     upload_to_testflight(
+      skip_submission: options[:distribute_external].nil? ? false : options[:distribute_external],
+      skip_waiting_for_build_processing: options[:distribute_external].nil? ? false : options[:distribute_external],
       distribute_external: options[:distribute_external].nil? ? false : options[:distribute_external],
       notify_external_testers: options[:notify_external_testers].nil? ? false : options[:notify_external_testers],
       groups: options[:groups].nil? ? [] : options[:groups],

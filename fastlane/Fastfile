@@ -11,12 +11,14 @@ platform :ios do
     login
     match(type: 'appstore', readonly: true)
     build_ios_app
+    distribute = options[:distribute_external].nil? ? false : options[:distribute_external]
+    UI.message("Distributing to external testing groups: #{options[:groups]}") if distribute
     upload_to_testflight(
-      skip_submission: options[:distribute_external].nil? ? false : options[:distribute_external],
-      skip_waiting_for_build_processing: options[:distribute_external].nil? ? false : options[:distribute_external],
-      distribute_external: options[:distribute_external].nil? ? false : options[:distribute_external],
-      notify_external_testers: options[:notify_external_testers].nil? ? false : options[:notify_external_testers],
-      groups: options[:groups].nil? ? [] : options[:groups],
+      skip_submission: distribute,
+      skip_waiting_for_build_processing: distribute,
+      distribute_external: distribute,
+      notify_external_testers: distribute,
+      groups: options[:groups],
       changelog: changelog_from_git_commits
     )
     git_commit(

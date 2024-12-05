@@ -122,6 +122,7 @@ platform :tvos do
       changelog: changelog_from_git_commits
     )
   end
+end
 
 desc 'Updates the app version to a new value'
 lane :version_bump do

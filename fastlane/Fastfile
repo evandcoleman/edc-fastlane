@@ -102,6 +102,27 @@ platform :mac do
   end
 end
 
+platform :tvos do
+  desc 'Push a new build to App Store Connect'
+  lane :build do |options|
+    ensure_git_status_clean
+    update_build_number
+    xcodegen
+    login
+    match(type: 'appstore', readonly: true, platform: 'tvos')
+    gym(sdk: 'appletvos')
+    distribute = options[:distribute_external].nil? ? false : options[:distribute_external]
+    UI.message("Distributing to external testing groups: #{options[:groups]}") if distribute
+    upload_to_testflight(
+      skip_submission: distribute,
+      skip_waiting_for_build_processing: distribute,
+      distribute_external: distribute,
+      notify_external_testers: distribute,
+      groups: options[:groups],
+      changelog: changelog_from_git_commits
+    )
+  end
+
 desc 'Updates the app version to a new value'
 lane :version_bump do
   version = UI.input("Enter a new version number (Currently #{get_current_version}): ")

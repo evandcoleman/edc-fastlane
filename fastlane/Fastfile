@@ -137,6 +137,11 @@ lane :version_bump do
   UI.important("Don't forget to push the change!")
 end
 
+desc 'Exports the current build number to an environment variable'
+lane :export_build_number do
+  ENV['BUILD_NUMBER'] = get_current_build_number
+end
+
 desc 'Generates and compresses a press kit archive'
 lane :presskit do
   login
